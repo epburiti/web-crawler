@@ -1,9 +1,9 @@
 import React, { useState, useContext } from "react";
-import { UseContext } from "./../../shared/UserContext";
+import { UseContext } from "../../shared/UserContext";
 import { Container } from "./styles";
-import axios from "./../../services/api";
+import axios from "../../services/api";
 import { ToastContainer, toast } from "react-toastify";
-import Loader from "./../../components/Loader";
+import Loader from "../Loader";
 
 const Modal = () => {
   const modalState = useContext(UseContext);

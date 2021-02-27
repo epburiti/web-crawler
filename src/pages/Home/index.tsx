@@ -2,25 +2,47 @@ import React, { useState, useEffect, useContext } from "react";
 import NavBar from "./../../components/NavBar";
 import "react-toastify/dist/ReactToastify.css";
 import { FaPlusCircle } from "react-icons/fa";
-import Modal from "./../../components/Modal";
-import { UseContext } from "../../shared/UserContext";
+import Modal from "../../components/ModalNew";
+import ModalList from "../../components/ModalList";
+
+import { UseContext, UseContextModalList } from "../../shared/UserContext";
 
 import { Container, ContainerTable, ContainerModal } from "./styles";
 
+interface IModalList {
+  requestName: string;
+  requestId: string;
+}
+interface ISolic {
+  id: string;
+  searchValue: string;
+}
+
 const Home: React.FC = () => {
   const modalState = useContext(UseContext);
-
+  const modalListState = useContext(UseContextModalList);
   const [loading, setLoading] = useState(false);
-  const [solic, setSolic] = useState<Object[]>([]);
+  const [solic, setSolic] = useState<ISolic[]>([]);
+  const [dataModalList, setDataModalList] = useState<IModalList>({
+    requestName: "",
+    requestId: "",
+  });
 
   useEffect(() => {
     let items = localStorage.getItem("solicitations") || "[]";
-    const itemsRef: Object[] = JSON.parse(items);
+    const itemsRef: ISolic[] = JSON.parse(items);
     setSolic(itemsRef);
   }, [modalState.modalAdd]);
 
-  function openModal() {
+  function openModalNew() {
     modalState.setModalAdd(true);
+  }
+  function openModalList(name: string, id: string) {
+    setDataModalList({
+      requestId: id,
+      requestName: name,
+    });
+    modalListState.setModalList(true);
   }
 
   return (
@@ -31,7 +53,7 @@ const Home: React.FC = () => {
       </div>
 
       <ContainerTable>
-        <button onClick={openModal} className="btn">
+        <button onClick={openModalNew} className="btn">
           <FaPlusCircle color={"orange"} size={20} />{" "}
           <span>Nova Solicitação</span>
         </button>
@@ -43,11 +65,17 @@ const Home: React.FC = () => {
             </tr>
           </thead>
           <tbody>
-            {solic.map((item: any) => (
+            {solic.map((item) => (
               <tr>
                 <td>{item.searchValue}</td>
                 <td>
-                  <span>Visualizar resultado...</span>
+                  <span
+                    onClick={() => {
+                      openModalList(item.searchValue, item.id);
+                    }}
+                  >
+                    Visualizar resultado...
+                  </span>
                 </td>
               </tr>
             ))}
@@ -71,6 +99,7 @@ const Home: React.FC = () => {
       </ContainerModal>
 
       <Modal />
+      <ModalList {...dataModalList} />
     </Container>
   );
 };
