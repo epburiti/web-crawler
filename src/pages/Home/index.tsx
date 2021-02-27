@@ -1,34 +1,28 @@
-import React, { useState } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import NavBar from "./../../components/NavBar";
-import axios from "./../../services/api";
-
-import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import { FaPlusCircle } from "react-icons/fa";
+import Modal from "./../../components/Modal";
+import { UseContext } from "../../shared/UserContext";
 
-import Loader from "./../../components/Loader";
-import { Container } from "./styles";
+import { Container, ContainerTable, ContainerModal } from "./styles";
 
 const Home: React.FC = () => {
-  const [searchTxt, setSearchTxt] = useState("");
-  async function handleCreateRequest() {
-    if (searchTxt.length < 4) {
-      toast.warn("A solicitação deve possuir mais que 4 caracteres");
-      return;
-    }
+  const modalState = useContext(UseContext);
 
-    const data = {
-      keyword: searchTxt,
-    };
-    const { data: response } = await axios.post("/crawl", data);
+  const [loading, setLoading] = useState(false);
+  const [solic, setSolic] = useState<Object[]>([]);
 
-    if (response.status && response.status !== 200) {
-      toast.error(
-        "Um erro inesperado aconteceu, tente novamente ou contate o Administrador"
-      );
-    } else {
-      toast.success("Solicitação cadastrada com sucesso...");
-    }
+  useEffect(() => {
+    let items = localStorage.getItem("solicitations") || "[]";
+    const itemsRef: Object[] = JSON.parse(items);
+    setSolic(itemsRef);
+  }, [modalState.modalAdd]);
+
+  function openModal() {
+    modalState.setModalAdd(true);
   }
+
   return (
     <Container>
       <NavBar />
@@ -36,28 +30,46 @@ const Home: React.FC = () => {
         <h1>Solicitações de inspeção</h1>
       </div>
 
-      <div className="container-add">
-        <div className="infor-data">
-          <label htmlFor="add">
-            Informe a solicitação que deseja cadastrar
-          </label>
-          <input
-            type="text"
-            name="add"
-            id="add"
-            placeholder="Escreva aqui..."
-            value={searchTxt}
-            onChange={(event) => setSearchTxt(event.target.value)}
-          />
-        </div>
-
-        <button className="btn" onClick={handleCreateRequest}>
-          Cadastrar
+      <ContainerTable>
+        <button onClick={openModal} className="btn">
+          <FaPlusCircle color={"orange"} size={20} /> Nova Solicitação
         </button>
-      </div>
+        <table className="styled-table">
+          <thead>
+            <tr>
+              <th>Nome</th>
+              <th>Pesquisar</th>
+            </tr>
+          </thead>
+          <tbody>
+            {solic.map((item: any) => (
+              <tr>
+                <td>{item.searchValue}</td>
+                <td>
+                  <span>Visualizar resultado...</span>
+                </td>
+              </tr>
+            ))}
+            {!solic.length && (
+              <tr>
+                <td>nenhuma solicitação a ser mostrada...</td>
+                <td></td>
+              </tr>
+            )}
+          </tbody>
+        </table>
+      </ContainerTable>
 
-      <Loader />
-      <ToastContainer position="bottom-right" />
+      <ContainerModal>
+        <div className="modal">
+          <div className="modal-content">
+            <h4>Foto Grande do Chaves</h4>
+          </div>
+          <label className="modal-close"></label>
+        </div>
+      </ContainerModal>
+
+      <Modal />
     </Container>
   );
 };
