@@ -10,7 +10,7 @@ export const Container = styled.div`
   top: 0;
   background-color: rgba(0, 0, 0, 0.2);
   .modal {
-    width: 500px;
+    min-width: 60vw;
     background: var(--white);
     border: 1px solid #ccc;
     transition: 1.1s ease-out;
@@ -45,7 +45,25 @@ export const Container = styled.div`
     margin: 0;
   }
   .modal .content {
-    padding: 1rem;
+    padding: 3rem;
+    max-height: 70vw;
+    overflow: auto;
+    h5 {
+      font-size: 1.6rem;
+    }
+    hr {
+      width: 100%;
+      margin: 1rem auto;
+      border-bottom: 1px solid var(--orange);
+      padding-top: 1rem;
+    }
+
+    ul {
+      padding: 1rem;
+      li {
+        margin-top: 1rem;
+      }
+    }
   }
   .modal .actions {
     border-top: 1px solid #ccc;

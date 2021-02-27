@@ -65,8 +65,8 @@ const Home: React.FC = () => {
             </tr>
           </thead>
           <tbody>
-            {solic.map((item) => (
-              <tr>
+            {solic.map((item, index) => (
+              <tr key={index}>
                 <td>{item.searchValue}</td>
                 <td>
                   <span
