@@ -32,7 +32,8 @@ const Home: React.FC = () => {
 
       <ContainerTable>
         <button onClick={openModal} className="btn">
-          <FaPlusCircle color={"orange"} size={20} /> Nova Solicitação
+          <FaPlusCircle color={"orange"} size={20} />{" "}
+          <span>Nova Solicitação</span>
         </button>
         <table className="styled-table">
           <thead>

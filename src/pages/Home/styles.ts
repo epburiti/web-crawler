@@ -27,11 +27,19 @@ export const ContainerTable = styled.div`
     color: var(--orange);
     transition: 0.5s all ease;
     border-radius: 1rem;
+    display: flex;
+    align-items: center;
+    span {
+      margin-left: 0.6rem;
+    }
   }
 
   .btn:hover {
     color: var(--white);
     background-color: var(--orange);
+    svg {
+      color: var(--white) !important;
+    }
   }
   .styled-table {
     border-collapse: collapse;
