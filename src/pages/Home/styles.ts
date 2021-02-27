@@ -2,6 +2,7 @@ import styled from "styled-components";
 
 export const Container = styled.div`
   .title {
+    text-align: center;
     color: var(--black);
     display: flex;
     justify-content: center;

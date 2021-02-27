@@ -10,7 +10,8 @@ export const Container = styled.div`
   top: 0;
   background-color: rgba(0, 0, 0, 0.2);
   .modal {
-    width: 500px;
+    max-width: 90%;
+    min-width: 60vw;
     background: var(--white);
     border: 1px solid #ccc;
     transition: 1.1s ease-out;

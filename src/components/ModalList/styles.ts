@@ -46,7 +46,7 @@ export const Container = styled.div`
   }
   .modal .content {
     padding: 3rem;
-    max-height: 70vw;
+    max-height: 70vh;
     overflow: auto;
     h5 {
       font-size: 1.6rem;

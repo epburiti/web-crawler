@@ -29,7 +29,7 @@ const Home: React.FC = () => {
   });
 
   useEffect(() => {
-    let items = localStorage.getItem("solicitations") || "[]";
+    let items = localStorage.getItem("solicitations636") || "[]";
     const itemsRef: ISolic[] = JSON.parse(items);
     setSolic(itemsRef);
   }, [modalState.modalAdd]);
@@ -81,7 +81,7 @@ const Home: React.FC = () => {
             ))}
             {!solic.length && (
               <tr>
-                <td>nenhuma solicitação a ser mostrada...</td>
+                <td>Cadastre uma solicitação no botão "NOVA SOLICITAÇÃO"...</td>
                 <td></td>
               </tr>
             )}

@@ -60,9 +60,16 @@ const Modal: React.FC<IModalList> = ({ requestName, requestId }) => {
           <div className="modal" id="modal">
             <h2>Resultado da solicitação de {requestName}</h2>
             <div className="content">
-              <h5>Lista de sites encontrados com a palavra {requestName}</h5>
+              <h5>
+                Lista de sites encontrados com a palavra chave {requestName}
+              </h5>
               <hr />
-              <h5>Status {data.status}</h5>
+              <h5>
+                Status:{" "}
+                {data.status === "active"
+                  ? "Análise em andamento"
+                  : "Análise Finalizada"}
+              </h5>
               <ul>
                 {data.urls.map((item, index) => (
                   <li key={index}>

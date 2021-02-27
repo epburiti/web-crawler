@@ -32,11 +32,11 @@ const Modal = () => {
     } else {
       response.searchValue = searchTxt;
       toast.success("Solicitação cadastrada com sucesso...");
-      let oldItems = localStorage.getItem("solicitations") || "[]";
+      let oldItems = localStorage.getItem("solicitations636") || "[]";
       const oldItemsRef: Object[] = JSON.parse(oldItems);
       const data = [...oldItemsRef, response];
       const myNewItem = JSON.stringify(data);
-      localStorage.setItem("solicitations", myNewItem);
+      localStorage.setItem("solicitations636", myNewItem);
     }
 
     setLoading(false);
