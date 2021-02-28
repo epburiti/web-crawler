@@ -1,6 +1,16 @@
 import styled from "styled-components";
 
 export const Container = styled.div`
+  @media (max-width: 600px) {
+    li {
+      font-size: 1.3rem;
+    }
+  }
+  @media (max-width: 400px) {
+    li {
+      font-size: 1rem;
+    }
+  }
   height: 100vh;
   width: 100vw;
   position: fixed;
@@ -11,6 +21,7 @@ export const Container = styled.div`
   background-color: rgba(0, 0, 0, 0.2);
   .modal {
     min-width: 60vw;
+    max-width: 90vw;
     background: var(--white);
     border: 1px solid #ccc;
     transition: 1.1s ease-out;

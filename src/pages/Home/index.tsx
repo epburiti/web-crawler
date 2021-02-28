@@ -21,7 +21,7 @@ interface ISolic {
 const Home: React.FC = () => {
   const modalState = useContext(UseContext);
   const modalListState = useContext(UseContextModalList);
-  const [loading, setLoading] = useState(false);
+  const [searchValue, setSearchValue] = useState("");
   const [solic, setSolic] = useState<ISolic[]>([]);
   const [dataModalList, setDataModalList] = useState<IModalList>({
     requestName: "",
@@ -45,6 +45,23 @@ const Home: React.FC = () => {
     modalListState.setModalList(true);
   }
 
+  function handleRenderTableData(item: ISolic, index: number) {
+    return (
+      <tr key={index}>
+        <td>{item.searchValue}</td>
+        <td>
+          <span
+            onClick={() => {
+              openModalList(item.searchValue, item.id);
+            }}
+          >
+            Visualizar resultado...
+          </span>
+        </td>
+      </tr>
+    );
+  }
+
   return (
     <Container>
       <NavBar />
@@ -61,30 +78,51 @@ const Home: React.FC = () => {
           <thead>
             <tr>
               <th>Nome</th>
-              <th>Pesquisar</th>
+              <th></th>
+            </tr>
+            <tr>
+              <td className="form__group field">
+                <input
+                  type="text"
+                  name="searchInput"
+                  id="searchInput"
+                  placeholder="Filtrar pelo nome"
+                  className="form__field"
+                  onChange={(event) => {
+                    setSearchValue(event.target.value);
+                  }}
+                  value={searchValue}
+                />
+                <label className="form__label">Filtrar pelo nome</label>
+              </td>
+              <td></td>
             </tr>
           </thead>
           <tbody>
-            {solic.map((item, index) => (
-              <tr key={index}>
-                <td>{item.searchValue}</td>
-                <td>
-                  <span
-                    onClick={() => {
-                      openModalList(item.searchValue, item.id);
-                    }}
-                  >
-                    Visualizar resultado...
-                  </span>
-                </td>
-              </tr>
-            ))}
+            {!searchValue.trim().length && solic.map(handleRenderTableData)}
+
+            {searchValue.trim().length >= 1 &&
+              solic
+                .filter((element: ISolic) => {
+                  return element.searchValue.includes(searchValue);
+                })
+                .map(handleRenderTableData)}
+
             {!solic.length && (
               <tr>
                 <td>Cadastre uma solicitação no botão "NOVA SOLICITAÇÃO"...</td>
                 <td></td>
               </tr>
             )}
+            {solic.length >= 1 &&
+              solic.filter((element: ISolic) => {
+                return element.searchValue.includes(searchValue);
+              }).length === 0 && (
+                <tr>
+                  <td>Nenhum dado foi encontrado com o filtro solicitado</td>
+                  <td></td>
+                </tr>
+              )}
           </tbody>
         </table>
       </ContainerTable>

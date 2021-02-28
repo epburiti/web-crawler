@@ -49,11 +49,20 @@ export const ContainerTable = styled.div`
     width: 100%;
     box-shadow: 0 0 20px rgba(0, 0, 0, 0.15);
   }
-  .styled-table thead tr {
+  .styled-table thead tr:nth-child(1) {
     background-color: #009879;
     color: #ffffff;
     text-align: left;
   }
+  .styled-table thead tr:nth-child(2) {
+    background-color: rgba(0, 152, 121, 0.1);
+    text-align: left;
+    label,
+    input {
+      margin-top: 1rem;
+    }
+  }
+
   .styled-table th,
   .styled-table td {
     padding: 12px 15px;
@@ -79,6 +88,70 @@ export const ContainerTable = styled.div`
   .styled-table tbody tr:last-child(0) {
     font-weight: bold;
     color: #009879;
+  }
+
+  /* custom input search */
+  .form__group {
+    position: relative;
+    padding: 15px 0 0;
+    margin-top: 10px;
+    width: 50%;
+  }
+
+  .form__field {
+    font-family: inherit;
+    width: 100%;
+    border: 0;
+    border-bottom: 2px solid gray;
+    outline: 0;
+    font-size: 1.3rem;
+    color: var(--black);
+    padding: 7px 0;
+    background: transparent;
+    transition: border-color 0.2s;
+
+    &::placeholder {
+      color: transparent;
+    }
+
+    &:placeholder-shown ~ .form__label {
+      font-size: 1.3rem;
+      cursor: text;
+      top: 20px;
+    }
+  }
+
+  .form__label {
+    position: absolute;
+    top: 0;
+    display: block;
+    transition: 0.2s;
+    font-size: 1rem;
+    color: gray;
+  }
+
+  .form__field:focus {
+    ~ .form__label {
+      position: absolute;
+      top: 0;
+      display: block;
+      transition: 0.2s;
+      font-size: 1rem;
+      color: var(--black);
+      font-weight: 700;
+    }
+    padding-bottom: 6px;
+    font-weight: 700;
+    border-width: 3px;
+    border-image: linear-gradient(to right, var(--black), #009879);
+    border-image-slice: 1;
+  }
+  /* reset input */
+  .form__field {
+    &:required,
+    &:invalid {
+      box-shadow: none;
+    }
   }
 `;
 
