@@ -4,7 +4,10 @@ import { Container } from "./styles";
 import axios from "../../services/api";
 import { ToastContainer, toast } from "react-toastify";
 import Loader from "../Loader";
-
+interface respNew {
+  id: string;
+  searchValue?: string;
+}
 const Modal = () => {
   const modalState = useContext(UseContext);
   const [searchTxt, setSearchTxt] = useState("");
@@ -23,21 +26,25 @@ const Modal = () => {
       keyword: searchTxt,
     };
     setLoading(true);
-    const { data: response } = await axios.post("/crawl", data);
+    await axios
+      .post("/crawl", data)
+      .then(({ data: response }: any) => {
+        console.log(response);
+        response.searchValue = searchTxt;
 
-    if (response.status && response.status !== 200) {
-      toast.error(
-        "Um erro inesperado aconteceu, tente novamente ou contate o Administrador"
-      );
-    } else {
-      response.searchValue = searchTxt;
-      toast.success("Solicitação cadastrada com sucesso...");
-      let oldItems = localStorage.getItem("solicitations636") || "[]";
-      const oldItemsRef: Object[] = JSON.parse(oldItems);
-      const data = [...oldItemsRef, response];
-      const myNewItem = JSON.stringify(data);
-      localStorage.setItem("solicitations636", myNewItem);
-    }
+        const resp: respNew = { ...response };
+        toast.success("Solicitação cadastrada com sucesso...");
+        let oldItems = localStorage.getItem("solicitations636") || "[]";
+        const oldItemsRef: Object[] = JSON.parse(oldItems);
+        const data = [...oldItemsRef, response];
+        const myNewItem = JSON.stringify(data);
+        localStorage.setItem("solicitations636", myNewItem);
+      })
+      .catch((error) => {
+        toast.error(
+          "Um erro inesperado aconteceu, tente novamente ou contate o Administrador"
+        );
+      });
 
     setLoading(false);
     closeModal();
